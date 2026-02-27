@@ -1,7 +1,18 @@
 public class PalindromeChecker {
     public static void main(String[] args) {
-        System.out.println(" Welcome to Palindrome Checker APP ");
-        System.out.println(" App Version : 1.1.1 ");
-        System.out.println(" System initialized successfully ");
+        String original = "madam";
+        System.out.println("Input Text: " + original);
+        System.out.println("Is it a Palindrome: " + IsPalindrome(original));
+    }
+
+    public static boolean IsPalindrome(String s) {
+        int n = s.length();
+
+        for(int i = 0; i < n / 2; ++i) {
+            if (s.charAt(i) != s.charAt(n - 1 - i)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
