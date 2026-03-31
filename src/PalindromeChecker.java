@@ -1,26 +1,68 @@
 
 public class PalindromeChecker{
-        public static boolean checkPalindrome(String input) {
+    interface PalindromeStrategy {
+        boolean check(String input);
+    }
 
-            int left = 0;
-            int right = input.length() - 1;
+        public static boolean stackCheck(String input) {
 
-            while (left < right) {
-                if (input.charAt(left) != input.charAt(right))
-                    return false;
+        java.util.Stack<Character> stack = new java.util.Stack<>();
 
-                left++;
-                right--;
-            }
+        for (char ch : input.toCharArray())
+            stack.push(ch);
 
-            return true;
+        for (char ch : input.toCharArray())
+            if (ch != stack.pop())
+                return false;
+
+        return true;
+    }
+
+    static class StackStrategy implements PalindromeStrategy {
+
+        public boolean check(String input) {
+            return stackCheck(input);
+        }
+    }
+
+        public static boolean dequeCheck(String input) {
+
+        java.util.Deque<Character> deque = new java.util.ArrayDeque<>();
+
+        for (char ch : input.toCharArray())
+            deque.add(ch);
+
+        while (deque.size() > 1) {
+            if (!deque.removeFirst().equals(deque.removeLast()))
+                return false;
         }
 
+        return true;
+    }
+
+    static class DequeStrategy implements PalindromeStrategy {
+
+        public boolean check(String input) {
+            return dequeCheck(input);
+        }
+    }
+
     public static void main(String[] args) {
-        String original = "madam";
-        System.out.println("Input Text: " + original);
-        System.out.println("Is it a palindrome: " + checkPalindrome(original));
+        String word = "madam";
+        PalindromeStrategy strategy;
+
+        strategy = new StackStrategy();
+        System.out.println(word + (strategy.check(word) ?
+                " is a Palindrome (Stack Strategy)" :
+                " is NOT a Palindrome (Stack Strategy)"));
+
+        strategy = new DequeStrategy();
+        System.out.println(word + (strategy.check(word) ?
+                " is a Palindrome (Deque Strategy)" :
+                " is NOT a Palindrome (Deque Strategy)"));
+
     }
 }
+
 
 
